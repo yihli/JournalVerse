@@ -14,12 +14,13 @@ const LoginForm = ({ setUser, setUserLikedEntries }) => {
 
         try {
             const userData = await loginService.login({ username, password })
-            setUser(userData)
+            // setUser(userData)
             entriesService.setToken(userData.token)
             usersService.setUser(userData)
 
             const fullUser = await usersService.getCurrentUser()
             setUserLikedEntries(fullUser.likes)
+            setUser(fullUser)
 
         } catch (error) {
             console.log('Error occurred while logging in')

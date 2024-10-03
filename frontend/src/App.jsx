@@ -37,7 +37,7 @@ const App = () => {
   return (
     <div className='app'>
       <h1>Hello World!</h1>
-      <EntriesDisplay entries={entries} showPostToolbar = {user !== null ? true : false} userLikedEntries={userLikedEntries ? userLikedEntries: []} setUserLikedEntries={setUserLikedEntries} nowDisplaying={nowDisplaying}/>
+      <EntriesDisplay entries={entries} setEntries={setEntries} showPostToolbar = {user !== null ? true : false} userLikedEntries={userLikedEntries ? userLikedEntries: []} setUserLikedEntries={setUserLikedEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser}/>
       {
         user 
         ? <div className="third-column" style={{border: '1px solid black'}}>

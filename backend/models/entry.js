@@ -32,4 +32,13 @@ entrySchema.set('toJSON', {
     }
 })
 
+// extracts the removed entry's id from every user's likes array.
+entrySchema.pre('remove', async (next) => {
+    const entryId = this._id
+
+    await User.updateMany({}, { $pull: { likes: entryId } })
+
+    next()
+})
+
 module.exports = mongoose.model('Entry', entrySchema)

@@ -73,4 +73,14 @@ entriesRouter.put('/:id', async (request, response, next) => {
     }
 })
 
+entriesRouter.delete(':/id', async (request, response, next) => {
+    try {
+        const entry = await Entry.findById(request.params.id)
+        await entry.remove()
+        response.status(204).end()
+    } catch (error) {
+        next(error)
+    }
+})
+
 module.exports = entriesRouter

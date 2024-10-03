@@ -4,9 +4,26 @@ import usersService from '../services/users'
 
 import { useState, useEffect } from 'react'
 
-const Entry = ({ entry, postedMessage, showPostToolbar, showRedHeart, setUserLikedEntries }) => {
+const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHeart, showDeleteButton, setUserLikedEntries, entries, setEntries }) => {
     const [totalLikes, setTotalLikes] = useState(entry.likes)
     const [likeDisabled, setLikeDisabled] = useState(false)
+
+    const handleDelete = async (event, entryId) => {
+        event.target.disabled = true
+
+        const updatedUser = {
+            ...user,
+            likes: user.likes.filter(id => id !== entryId)
+        }
+
+        try {
+            console.log('Deleting...')
+            console.log(updatedUser)
+            setEntries(entries.filter(e => e.id !== entryId))
+        } catch {
+
+        }
+    }
 
     const handleLike = async (entryId) => {
         setLikeDisabled(true)
@@ -41,15 +58,18 @@ const Entry = ({ entry, postedMessage, showPostToolbar, showRedHeart, setUserLik
             likes: totalLikes + likesIncrement
         }
 
-        
-        await usersService.updateOne(updatedUserDetails)
-        await entriesService.updateOne(entryId, updatedEntryDetails)
-        setTotalLikes(likesIncrement + totalLikes)
-        setUserLikedEntries(userLikedArr)
+        try {
+            await usersService.updateOne(updatedUserDetails)
+            await entriesService.updateOne(entryId, updatedEntryDetails)
+            setTotalLikes(likesIncrement + totalLikes)
+            setUserLikedEntries(userLikedArr)
 
-        setTimeout(() => {
-            setLikeDisabled(false)
-        }, 500)
+            setTimeout(() => {
+                setLikeDisabled(false)
+            }, 500)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -70,8 +90,7 @@ const Entry = ({ entry, postedMessage, showPostToolbar, showRedHeart, setUserLik
                         {totalLikes}
                     </button>
 
-                    <button>
-                        {/* comment logo */}
+                    {/* <button>
                         <svg className="post-toolbar-likes-bubble logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black">
                             <path d="M2 3c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2h-4l-4 4-4-4H4c-1.1 0-2-.9-2-2V3z"/>
                         </svg>
@@ -83,15 +102,21 @@ const Entry = ({ entry, postedMessage, showPostToolbar, showRedHeart, setUserLik
                             <path id="primary" d="M12,17,5,21V4A1,1,0,0,1,6,3H18a1,1,0,0,1,1,1V21Z"></path>
                         </svg>
                         Save
-                    </button>
-                    
+                    </button> */}
+
+                    {showDeleteButton && <button onClick={(event) => handleDelete(event, entry.id)}>
+                        <svg className="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M3 6h18M6 6v12a3 3 0 003 3h6a3 3 0 003-3V6M9 6V4a2 2 0 012-2h6a2 2 0 012 2v2M10 11v5M14 11v5" fill="none" stroke="black"/>
+                        </svg>
+                        Delete post
+                    </button>}   
                 </div>
             }
         </div>
     )
 }
 
-const EntriesDisplay = ({ entries, showPostToolbar, userLikedEntries, setUserLikedEntries, nowDisplaying }) => {
+const EntriesDisplay = ({ user, setUser, entries, setEntries, showPostToolbar, userLikedEntries, setUserLikedEntries, nowDisplaying }) => {
 
     const timeSincePost = (timePosted) => {
         const timeCurrent = new Date().getTime()
@@ -119,7 +144,7 @@ const EntriesDisplay = ({ entries, showPostToolbar, userLikedEntries, setUserLik
             <div className="entries-display">
             {
             [...entries].reverse().map(entry => (
-                <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={showPostToolbar} showRedHeart={userLikedEntries.includes(entry.id) ? true : false} setUserLikedEntries={setUserLikedEntries}/>
+                <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={showPostToolbar} showRedHeart={userLikedEntries.includes(entry.id)} setUserLikedEntries={setUserLikedEntries} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
             ))    
             }       
         </div>

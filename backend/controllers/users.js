@@ -38,7 +38,7 @@ usersRouter.post('/', async (request, response, next) => {
 
 usersRouter.get('/', async (request, response, next) => {
     try {
-        const users = await User.find({}).populate('entries', { title: true, content: true, likes: true })
+        const users = await User.find({}).populate('entries', { title: true, content: true, likes: true, id: true })
         response.status(200).send(users)
     } catch (error) {
         next(error)
@@ -48,7 +48,7 @@ usersRouter.get('/', async (request, response, next) => {
 
 usersRouter.get('/:id', async (request, response, next) => {
     try {
-        const user = await User.findById(request.params.id)
+        const user = await User.findById(request.params.id).populate('entries')
         response.status(200).json(user)
     } catch (error) {
         next(error)

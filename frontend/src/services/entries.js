@@ -34,10 +34,16 @@ const createOne = async (entry) => {
     return response.data
 }
 
+const deleteOne = async (id) => {
+    const response = await axios.delete(id)
+    return response.data
+}
+
 export default {
     getAll,
     getOne,
     updateOne,
     createOne,
-    setToken
+    setToken,
+    deleteOne
 }
