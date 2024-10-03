@@ -11,6 +11,11 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
     const handleDelete = async (event, entryId) => {
         event.target.disabled = true
 
+        if (!confirm('Are you sure you want to delete this post?')) {
+            event.target.disabled = false
+            return
+        }
+
         const updatedUser = {
             ...user,
             likes: user.likes.filter(id => id !== entryId)
@@ -142,13 +147,14 @@ const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying }) =
     return (
         <div>
             <h1 className="half-margin">{nowDisplaying}</h1>
-            <div className="entries-display">
-            {
-            [...entries].reverse().map(entry => (
-                <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={user !== null} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
-            ))    
-            }       
-        </div>
+            
+             <div className="entries-display">
+                {
+                [...entries].reverse().map(entry => (
+                    <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={user !== null} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
+                ))    
+                }       
+                </div>
       </div>
        
     )

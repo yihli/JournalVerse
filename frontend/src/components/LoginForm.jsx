@@ -4,7 +4,7 @@ import usersService from '../services/users'
 
 import { useState } from 'react'
 
-const LoginForm = ({ setUser, setUserLikedEntries }) => {
+const LoginForm = ({ setUser }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState(null)
@@ -27,11 +27,10 @@ const LoginForm = ({ setUser, setUserLikedEntries }) => {
             usersService.setUser(userData)
 
             const fullUser = await usersService.getCurrentUser()
-            setUserLikedEntries(fullUser.likes)
             setUser(fullUser)
 
         } catch (error) {
-            console.log('Error occurred while logging in')
+            console.log('Error occurred while logging in', error)
             showError('Incorrect username or password.')
         }
     }
