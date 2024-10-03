@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/entries
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY2ZTI0YWJiYWRmMjZlNjU3ZjYzNWU0ZiIsImlhdCI6MTcyNjU1MjkzMX0.NZaVZIwDkC7M6LxCF2hJ10VrDO9QlTeNON7j8qQQKd8
+
+{
+    "title": "Testing 2",
+    "content": "the farty"
+}
