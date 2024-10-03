@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../utils/config')
 const logger = require('../utils/logger')
 
+
 entriesRouter.get('/', async (request, response) => {
     const entries = await Entry.find({}).populate('user', { username: true, id: true, name: true })
 
@@ -73,10 +74,10 @@ entriesRouter.put('/:id', async (request, response, next) => {
     }
 })
 
-entriesRouter.delete(':/id', async (request, response, next) => {
+entriesRouter.delete('/:id', async (request, response, next) => {
     try {
-        const entry = await Entry.findById(request.params.id)
-        await entry.remove()
+        const entry = await Entry.findByIdAndDelete(request.params.id)
+        await User.updateMany({}, { $pull: { likes: request.params.id } })
         response.status(204).end()
     } catch (error) {
         next(error)

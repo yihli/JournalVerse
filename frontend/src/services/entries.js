@@ -35,7 +35,7 @@ const createOne = async (entry) => {
 }
 
 const deleteOne = async (id) => {
-    const response = await axios.delete(id)
+    const response = await axios.delete(`${baseUrl}/${id}`)
     return response.data
 }
 

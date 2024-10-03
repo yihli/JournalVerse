@@ -21,7 +21,7 @@ const App = () => {
       setEntries(returnedEntries)
     })
     console.log(entries)
-  }, [userLikedEntries])
+  }, [user])
 
   const handleShowEntryForm = () => {
     setShowEntryForm(!showEntryForm)
@@ -37,11 +37,11 @@ const App = () => {
   return (
     <div className='app'>
       <h1>Hello World!</h1>
-      <EntriesDisplay entries={entries} setEntries={setEntries} showPostToolbar = {user !== null ? true : false} userLikedEntries={userLikedEntries ? userLikedEntries: []} setUserLikedEntries={setUserLikedEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser}/>
+      <EntriesDisplay entries={entries} setEntries={setEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser}/>
       {
         user 
         ? <div className="third-column" style={{border: '1px solid black'}}>
-          {showEntryForm ? <EntryForm handleShowEntryForm={handleShowEntryForm} setEntries={setEntries} entries = {entries} /> : <button className="create-entry-button" onClick={handleShowEntryForm}>+</button>}
+          {showEntryForm ? <EntryForm handleShowEntryForm={handleShowEntryForm} setEntries={setEntries} entries = {entries} user={user} setUser={setUser}/> : <button className="create-entry-button" onClick={handleShowEntryForm}>+</button>}
           {/* <button className="create-entry-button" onClick={handleShowEntryForm}>+</button> */}
           </div>
         : 

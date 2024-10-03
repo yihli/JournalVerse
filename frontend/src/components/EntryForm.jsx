@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import entriesService from '../services/entries'
 import usersService from '../services/users'
 
-const EntryForm = ({ handleShowEntryForm, entries, setEntries }) => {
+const EntryForm = ({ handleShowEntryForm, entries, setEntries, user, setUser }) => {
     const [content, setContent] = useState('')
     const [title, setTitle] = useState('')
     const [error, setError] = useState(null)
@@ -65,6 +65,7 @@ const EntryForm = ({ handleShowEntryForm, entries, setEntries }) => {
             handleShowEntryForm()
             console.log({ ...returnedEntry, user: { id: postedUser.id } })
             setEntries(entries.concat({ ...returnedEntry, user: { username: postedUser.username, id: postedUser.id } }))
+            setUser({ ...user, entries: user.entries.concat(returnedEntry)})
         } catch (error) {
             setError(error.response)
             setTimeout(() => {

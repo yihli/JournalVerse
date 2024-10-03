@@ -4,7 +4,7 @@ import usersService from '../services/users'
 
 import { useState, useEffect } from 'react'
 
-const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHeart, showDeleteButton, setUserLikedEntries, entries, setEntries }) => {
+const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHeart, showDeleteButton, entries, setEntries }) => {
     const [totalLikes, setTotalLikes] = useState(entry.likes)
     const [likeDisabled, setLikeDisabled] = useState(false)
 
@@ -19,9 +19,10 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
         try {
             console.log('Deleting...')
             console.log(updatedUser)
+            await entriesService.deleteOne(entryId)
             setEntries(entries.filter(e => e.id !== entryId))
-        } catch {
-
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -49,7 +50,7 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
             userLikedArr = userLikedArr.concat(entryId)
         }
 
-        const updatedUserDetails = {
+        let updatedUserDetails = {
             likes: userLikedArr
         }
 
@@ -62,7 +63,7 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
             await usersService.updateOne(updatedUserDetails)
             await entriesService.updateOne(entryId, updatedEntryDetails)
             setTotalLikes(likesIncrement + totalLikes)
-            setUserLikedEntries(userLikedArr)
+            setUser({ ...user, likes: userLikedArr })
 
             setTimeout(() => {
                 setLikeDisabled(false)
@@ -116,7 +117,7 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
     )
 }
 
-const EntriesDisplay = ({ user, setUser, entries, setEntries, showPostToolbar, userLikedEntries, setUserLikedEntries, nowDisplaying }) => {
+const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying }) => {
 
     const timeSincePost = (timePosted) => {
         const timeCurrent = new Date().getTime()
@@ -144,7 +145,7 @@ const EntriesDisplay = ({ user, setUser, entries, setEntries, showPostToolbar, u
             <div className="entries-display">
             {
             [...entries].reverse().map(entry => (
-                <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={showPostToolbar} showRedHeart={userLikedEntries.includes(entry.id)} setUserLikedEntries={setUserLikedEntries} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
+                <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={user !== null} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
             ))    
             }       
         </div>
