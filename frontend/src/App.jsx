@@ -12,7 +12,6 @@ const App = () => {
   const [entries, setEntries] = useState([])
   const [showEntryForm, setShowEntryForm] = useState(false)
   const [user, setUser] = useState(null)
-  const [userLikedEntries, setUserLikedEntries] = useState(null)
   const [loginState, setLoginState] = useState(true)
   const [nowDisplaying, setNowDisplaying] = useState('Global entries')
 
@@ -46,7 +45,7 @@ const App = () => {
           </div>
         : 
           <div className="third-column" style={{border: '1px solid black'}}>
-            { loginState ? <LoginForm setUser={setUser} setUserLikedEntries={setUserLikedEntries}/> : <CreateAccountForm setLoginState={setLoginState}/>}
+            { loginState ? <LoginForm setUser={setUser} /> : <CreateAccountForm setLoginState={setLoginState}/>}
             <p className="switch-account-text" onClick={handleSwitchForm}>{loginState ? 'New user? Create an account' : 'Already a user? Log In'}</p>
           </div>
       }
