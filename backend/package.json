@@ -6,7 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test node --test",
     "dev": "npm run build && nodemon index.js",
-    "start": "cross-env NODE_ENV=production node index.js",
+    "start": "node index.js",
     "build": "cd ../frontend && npm run build && cp -rf dist/ ../backend"
   },
   "author": "Yi Li",
