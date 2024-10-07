@@ -5,6 +5,7 @@ import EntriesDisplay from './components/EntriesDisplay'
 import EntryForm from './components/EntryForm'
 import LoginForm from './components/LoginForm'
 import CreateAccountForm from './components/CreateAccountForm'
+import Sidebar from './components/Sidebar'
 
 import './styles.css'
 
@@ -35,7 +36,7 @@ const App = () => {
 
   return (
     <div className='app'>
-      <h1>Hello World!</h1>
+      <EntriesFilter />
       <EntriesDisplay entries={entries} setEntries={setEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser}/>
       {
         user 

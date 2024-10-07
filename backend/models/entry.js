@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const User = require('../models/user')
+// const User = require('../models/user')
 
 const entrySchema = new mongoose.Schema({
     title: {
@@ -12,11 +12,11 @@ const entrySchema = new mongoose.Schema({
     },
     likes: Number,
     date: Number,
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
+    user: {                                         // user that posted the entry
+        type: mongoose.Schema.Types.ObjectId,   
         ref: 'User'
     },
-    likedBy: [
+    likedBy: [                                      // which users liked the entry
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
@@ -24,6 +24,7 @@ const entrySchema = new mongoose.Schema({
     ]
 })
 
+// simplifies returned json data and removes unnecessary info
 entrySchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
@@ -33,12 +34,12 @@ entrySchema.set('toJSON', {
 })
 
 // extracts the removed entry's id from every user's likes array.
-entrySchema.pre('remove', async (next) => {
-    const entryId = this._id
+// entrySchema.pre('remove', async (next) => {
+//     const entryId = this._id
 
-    await User.updateMany({}, { $pull: { likes: entryId } })
+//     await User.updateMany({}, { $pull: { likes: entryId } })
 
-    next()
-})
+//     next()
+// })
 
 module.exports = mongoose.model('Entry', entrySchema)

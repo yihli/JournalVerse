@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Entry = require('./entry')
+// const Entry = require('./entry')
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -18,13 +18,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    entries: [
+    entries: [                                          // entries that user posted
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Entry'
         }
     ],
-    likes: [
+    likes: [                                            // entries that user liked
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Entry'
@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema({
     ]
 })
 
+// simplifies returned json and removes unnecessary information
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()

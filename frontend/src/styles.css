@@ -248,3 +248,14 @@ button:hover {
 .switch-account-text:hover {
     color: blue;
 }
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.entry-filter {
+    border: 1px solid black;
+    width: 100%;
+    
+}
