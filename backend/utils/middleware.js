@@ -34,7 +34,7 @@ const errorHandler = (error, request, response, next) => {
     } else if (error.name === 'CastError') {
         return response.status(400).send({ error: 'invalid id' })
     } else if (error.name === 'MongoServerError' && error.message.includes('E11000')) {
-        return response.status(400).send({ error: 'Duplicate usernames not allowed' })
+        return response.status(400).send({ error: 'Username already exists' })
     } else if (error.name === 'JsonWebTokenError') {
         return response.status(401).send({ error: error.message })
     }

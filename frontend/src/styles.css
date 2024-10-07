@@ -4,7 +4,7 @@
 
 .app {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 0.75fr 2fr 1fr;
     height: 98vh;
     margin: 0px;
 }
@@ -113,6 +113,8 @@ button:hover {
 
 .third-column {
     position: relative;
+    border: 1px solid black;
+    border-radius: 1rem;
 }
 
 .create-entry-button {
@@ -252,10 +254,14 @@ button:hover {
 .sidebar-container {
     display: flex;
     flex-direction: column;
+    text-align: center;
+}
+
+.sidebar-logo {
+    width: 100%;
 }
 
 .entry-filter {
     border: 1px solid black;
     width: 100%;
-    
 }

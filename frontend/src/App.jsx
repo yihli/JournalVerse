@@ -36,16 +36,16 @@ const App = () => {
 
   return (
     <div className='app'>
-      <EntriesFilter />
+      <Sidebar user={user} />
       <EntriesDisplay entries={entries} setEntries={setEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser}/>
       {
         user 
-        ? <div className="third-column" style={{border: '1px solid black'}}>
+        ? <div className="third-column" >
           {showEntryForm ? <EntryForm handleShowEntryForm={handleShowEntryForm} setEntries={setEntries} entries = {entries} user={user} setUser={setUser}/> : <button className="create-entry-button" onClick={handleShowEntryForm}>+</button>}
           {/* <button className="create-entry-button" onClick={handleShowEntryForm}>+</button> */}
           </div>
         : 
-          <div className="third-column" style={{border: '1px solid black'}}>
+          <div className="third-column" >
             { loginState ? <LoginForm setUser={setUser} /> : <CreateAccountForm setLoginState={setLoginState}/>}
             <p className="switch-account-text" onClick={handleSwitchForm}>{loginState ? 'New user? Create an account' : 'Already a user? Log In'}</p>
           </div>

@@ -8,8 +8,10 @@ const CreateAccountForm = ({ setLoginState }) => {
     const [rePassword, setRePassword] = useState('')
     const [errorMessage, setErrorMessage] = useState(null)
 
+    // React reference to the submit button
     const submitButton = useRef(null)
 
+    // show error for 5 seconds
     const showError = (message) => {
         setErrorMessage(message)
 
@@ -18,25 +20,31 @@ const CreateAccountForm = ({ setLoginState }) => {
         }, 5000)
     }
 
+    // form submit
     const handleFormSubmit = async (event) => {
         event.preventDefault()
 
+        // all fields must be filled.
         if (username == '' || name == '' || password == '' || rePassword == '') {
             return showError('Please fill in all fields.')
         }
 
+        // username must only contain certain characters.
         if (!/^[a-zA-Z0-9._]+$/.test(username)) {
             return showError('Username must only contain numbers, letters, dots, underscores.')
         }
-
+    
+        // retyped password should match original
         if (password !== rePassword) {
             return showError('Retyped password does not match.')
         }
 
+        // password length constraint
         if (password.length < 8 || password.length > 16) {
             return showError('Password must be between 8 and 16 characters long.')
         }
         
+        // object with entered details
         const userDetails = {
             username,
             name: name.replace(/\s+/g, ' ').replace(/\s+$/, ''), // only allow one space between words, no trailing spaces
@@ -44,18 +52,22 @@ const CreateAccountForm = ({ setLoginState }) => {
             rePassword
         }
 
-        console.log(userDetails)
         try {
+            // access the user creation API to store a new user in the database
             const returnedDetails = await usersService.createOne(userDetails)
-            console.log(returnedDetails)
-            submitButton.current.disabled = true;
-            showError('Account created, please log in with your new details. Redirecting...')
 
+            // prevent double submits 
+            submitButton.current.disabled = true;
+
+            // redirect user to login form
+            showError('Account created, please log in with your new details. Redirecting...')
             setTimeout(() => {
                 setLoginState(true)
             }, 3000)
         } catch (error) {
             console.log(error)
+            // failure allows user to submit new form
+            showError(`Error: ${error.response.data.error}`)
             submitButton.current.disabled = false;
         }
     }
