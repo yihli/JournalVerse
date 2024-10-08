@@ -266,8 +266,15 @@ button:hover {
     width: 100%;
 }
 
+.entry-filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
 .entry-filter {
     border: 1px solid black;
+    border-radius: 0.5rem;
     width: 100%;
 }
 

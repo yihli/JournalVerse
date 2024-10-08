@@ -14,13 +14,12 @@ const App = () => {
   const [showEntryForm, setShowEntryForm] = useState(false)
   const [user, setUser] = useState(null)
   const [loginState, setLoginState] = useState(true)
-  const [nowDisplaying, setNowDisplaying] = useState('Global entries')
+  const [nowDisplaying, setNowDisplaying] = useState('All entries')
 
   useEffect(() => {
     entriesService.getAll().then(returnedEntries => {
       setEntries(returnedEntries)
     })
-    console.log(entries)
   }, [user])
 
   const handleShowEntryForm = () => {
@@ -32,12 +31,14 @@ const App = () => {
     setLoginState(!loginState)
   }
 
-
+  const handleSetEntries = (entries) => {
+    setEntries(entries)
+  }
 
   return (
     <div className='app'>
-      <Sidebar user={user} />
-      <EntriesDisplay entries={entries} setEntries={setEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser}/>
+      <Sidebar user={user} setNowDisplaying={setNowDisplaying}/>
+      <EntriesDisplay entries={entries} setEntries={handleSetEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser} />
       {
         user 
         ? <div className="third-column" >

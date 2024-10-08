@@ -122,7 +122,7 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
     )
 }
 
-const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying }) => {
+const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying, entriesToShow }) => {
 
     const timeSincePost = (timePosted) => {
         const timeCurrent = new Date().getTime()
@@ -144,13 +144,23 @@ const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying }) =
         return message
     }
 
+    let displayedEntries = [];
+
+    if (nowDisplaying == 'All entries') {
+        displayedEntries = entries
+    } else if (nowDisplaying == 'Liked entries') {
+        displayedEntries = entries.filter(e => user.likes.includes(e.id))
+    } else if (nowDisplaying == 'Your entries') {
+        displayedEntries = entries.filter(e => user.entries.some(p => p.id === e.id))
+    }
+
     return (
         <div>
             <h1 className="half-margin">{nowDisplaying}</h1>
             
              <div className="entries-display">
                 {
-                [...entries].reverse().map(entry => (
+                [...displayedEntries].reverse().map(entry => (
                     <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={user !== null} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
                 ))    
                 }       
