@@ -224,6 +224,10 @@ button:hover {
     gap: 0.4rem;
 }
 
+.login-form input {
+    border-radius: 0.24rem;
+}
+
 .login-form-submit-button {
     margin: 0.3rem 0px 0px 0px;
     border-radius: 0.2rem;
