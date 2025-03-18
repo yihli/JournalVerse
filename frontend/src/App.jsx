@@ -1,5 +1,6 @@
 import entriesService from './services/entries'
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import EntriesDisplay from './components/EntriesDisplay'
 import EntryForm from './components/EntryForm'
@@ -11,6 +12,9 @@ import './styles.css'
 
 const App = () => {
   const [entries, setEntries] = useState([])
+
+  const entries_test = useSelector(state => state.entries)
+
   const [showEntryForm, setShowEntryForm] = useState(false)
   const [user, setUser] = useState(null)
   const [loginState, setLoginState] = useState(true)
@@ -38,7 +42,7 @@ const App = () => {
   return (
     <div className='app'>
       <Sidebar user={user} setNowDisplaying={setNowDisplaying}/>
-      <EntriesDisplay entries={entries} setEntries={handleSetEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser} />
+      <EntriesDisplay entries={entries_test} setEntries={handleSetEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser} />
       {
         user 
         ? <div className="third-column" >
