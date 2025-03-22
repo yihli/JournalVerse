@@ -18,11 +18,6 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
             return
         }
 
-        const updatedUser = {
-            ...user,
-            likes: user.likes.filter(id => id !== entryId)
-        }
-
         try {
             await entriesService.deleteOne(entryId)
             dispatch(deleteEntry({ id: entryId }))
@@ -80,10 +75,27 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
 
 
     return (
-        <div className='entries-display-entry pop' key={entry.id}>
-            <h2 className="title">{entry.title} <span className="title-date wrap">• Posted {postedMessage} • Author: {entry.user.username}</span></h2> 
-            <hr></hr>
-            <p className="content">{entry.content}</p>
+        <div className='
+            outline-1 outline-black rounded
+            my-[0.25rem]
+            px-[0.5rem]
+            ' 
+            key={entry.id}
+        >
+            <h2 className="
+                font-bold 
+                text-lg
+                leading-tight
+                py-[0.25rem]">
+                {entry.title} 
+            </h2> 
+            <p className="font-normal text-xs">
+                    • Posted {postedMessage} • Author: {entry.user.username}
+            </p>
+            <hr className="mt-[0.5rem]"></hr>
+            <p className="text-sm py-[0.25rem]">
+                {entry.content}
+            </p>
 
             {
                 showPostToolbar && 
@@ -144,10 +156,15 @@ const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying, ent
         <div>
             <h1 className="half-margin">{nowDisplaying}</h1>
             
-             <div className="entries-display">
+             <div className="
+                w-screen
+                flex flex-col justify-content
+                mt-[1rem]
+                px-[0.5rem]">
                 {
                 [...displayedEntries].reverse().map(entry => (
-                    <Entry key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={user !== null} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
+                    <Entry 
+                        key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={user !== null} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
                 ))    
                 }       
                 </div>

@@ -40,22 +40,33 @@ const App = () => {
   }
 
   return (
-    <div className='app'>
-      <Sidebar user={user} setNowDisplaying={setNowDisplaying}/>
-      <EntriesDisplay entries={entries_test} setEntries={handleSetEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser} />
-      {
-        user 
-        ? <div className="third-column" >
-          {showEntryForm ? <EntryForm handleShowEntryForm={handleShowEntryForm} setEntries={setEntries} entries = {entries} user={user} setUser={setUser}/> : <button className="create-entry-button" onClick={handleShowEntryForm}>+</button>}
-          {/* <button className="create-entry-button" onClick={handleShowEntryForm}>+</button> */}
-          </div>
-        : 
-          <div className="third-column" >
-            { loginState ? <LoginForm setUser={setUser} /> : <CreateAccountForm setLoginState={setLoginState}/>}
-            <p className="switch-account-text" onClick={handleSwitchForm}>{loginState ? 'New user? Create an account' : 'Already a user? Log In'}</p>
-          </div>
-      }
+    <div className='
+      flex flex-col justify-center items-center
+      bg-gray-300
+      w-screen
+      overflow-y-auto'>
+        <Sidebar 
 
+          user={user} setNowDisplaying={setNowDisplaying}/>
+        <EntriesDisplay 
+
+          entries={entries_test} setEntries={handleSetEntries} nowDisplaying={nowDisplaying} user={user} setUser={setUser} />
+        {
+          user 
+          ? <div className="third-column" >
+            {showEntryForm ? <EntryForm 
+                              className='
+                                w-full'
+                              handleShowEntryForm={handleShowEntryForm} setEntries={setEntries} entries = {entries} user={user} setUser={setUser}/> : <button className="create-entry-button" onClick={handleShowEntryForm}>+</button>}
+            </div>
+          : 
+            <div className="third-column" >
+              { loginState ? <LoginForm 
+                                className='
+                                w-full'setUser={setUser} /> : <CreateAccountForm setLoginState={setLoginState}/>}
+              <p className="switch-account-text" onClick={handleSwitchForm}>{loginState ? 'New user? Create an account' : 'Already a user? Log In'}</p>
+            </div>
+        }
     </div>
   )
 }
