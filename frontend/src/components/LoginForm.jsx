@@ -3,8 +3,12 @@ import entriesService from '../services/entries'
 import usersService from '../services/users'
 
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../reducers/userReducer'
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
+    const dispatch = useDispatch()
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState(null)
@@ -27,7 +31,8 @@ const LoginForm = ({ setUser }) => {
             usersService.setUser(userData)
 
             const fullUser = await usersService.getCurrentUser()
-            setUser(fullUser)
+            // setUser(fullUser)
+            dispatch(setUser(fullUser))
 
         } catch (error) {
             console.log('Error occurred while logging in', error)

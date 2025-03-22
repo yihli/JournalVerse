@@ -19,10 +19,12 @@ import App from './App'
 // })
 
 import entryReducer from './reducers/entryReducer'
+import userReducer from './reducers/userReducer'
 
 const store = configureStore({
     reducer: {
-        entries: entryReducer
+        entries: entryReducer,
+        user: userReducer
     }
 })
 

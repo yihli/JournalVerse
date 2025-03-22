@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux'
 import journalverseLogo from '../assets/journalverse-logo.png'
 
-const Sidebar = ({user, setNowDisplaying}) => {
+const Sidebar = ({ setNowDisplaying }) => {
+    const user = useSelector(state => state.user)
 
     const handleSelectFilter = (filter) => {
         setNowDisplaying(filter)
@@ -12,8 +14,8 @@ const Sidebar = ({user, setNowDisplaying}) => {
         >
             <img className="
                 w-[10rem] h-auto " src={journalverseLogo}/>
-            { user ? <h1>Hello, {user.name}!</h1> : <h1>Welcome!</h1>}
-            { user && 
+            { Object.keys(user).length !== 0 ? <h1>Hello, {user.name}!</h1> : <h1>Welcome!</h1>}
+            { Object.keys(user).length !== 0  && 
             <div >
                 <div  onClick={() => handleSelectFilter('All entries')}><h2>All entries</h2></div>
                 <div  onClick={() => handleSelectFilter('Liked entries')}><h2>Liked entries</h2></div>
