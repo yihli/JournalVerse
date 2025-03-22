@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
 import entriesService from '../services/entries'
 import usersService from '../services/users'
+import { useDispatch } from 'react-redux'
+import { createEntry } from '../reducers/entryReducer'
 
-const EntryForm = ({ handleShowEntryForm, entries, setEntries, user, setUser }) => {
+const EntryForm = ({ handleShowEntryForm, user, setUser }) => {
+    const dispatch = useDispatch()
     const [content, setContent] = useState('')
     const [title, setTitle] = useState('')
     const [error, setError] = useState(null)
@@ -59,12 +62,10 @@ const EntryForm = ({ handleShowEntryForm, entries, setEntries, user, setUser }) 
     
         try {
             const returnedEntry = await entriesService.createOne(newEntry)
-            console.log(returnedEntry)
             const postedUser = await usersService.getCurrentUser()
 
             handleShowEntryForm()
-            console.log({ ...returnedEntry, user: { id: postedUser.id } })
-            setEntries(entries.concat({ ...returnedEntry, user: { username: postedUser.username, id: postedUser.id } }))
+            dispatch(createEntry({ ...returnedEntry, user: { username: postedUser.username, id: postedUser.id }}))
             setUser({ ...user, entries: user.entries.concat(returnedEntry)})
         } catch (error) {
             setError(error.response)
