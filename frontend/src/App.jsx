@@ -8,7 +8,6 @@ import LoginForm from './components/LoginForm'
 import CreateAccountForm from './components/CreateAccountForm'
 import Sidebar from './components/Sidebar'
 
-
 import './styles.css'
 
 const App = () => {
@@ -17,7 +16,6 @@ const App = () => {
   const entries_test = useSelector(state => state.entries)
 
   const [showEntryForm, setShowEntryForm] = useState(false)
-  // const [user, setUser] = useState(null)
 
   const user = useSelector(state => state.user)
 
