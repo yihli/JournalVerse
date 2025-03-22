@@ -1,10 +1,12 @@
 import entriesService from '../services/entries'
-import users from '../services/users'
 import usersService from '../services/users'
+import { deleteEntry } from '../reducers/entryReducer'
+import { useDispatch } from 'react-redux'
 
 import { useState, useEffect } from 'react'
 
-const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHeart, showDeleteButton, entries, setEntries }) => {
+const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHeart, showDeleteButton }) => {
+    const dispatch = useDispatch()
     const [totalLikes, setTotalLikes] = useState(entry.likes)
     const [likeDisabled, setLikeDisabled] = useState(false)
 
@@ -22,10 +24,8 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
         }
 
         try {
-            console.log('Deleting...')
-            console.log(updatedUser)
             await entriesService.deleteOne(entryId)
-            setEntries(entries.filter(e => e.id !== entryId))
+            dispatch(deleteEntry({ id: entryId }))
         } catch (error) {
             console.log(error)
         }
@@ -95,20 +95,6 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
                         </svg>
                         {totalLikes}
                     </button>
-
-                    {/* <button>
-                        <svg className="post-toolbar-likes-bubble logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black">
-                            <path d="M2 3c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2h-4l-4 4-4-4H4c-1.1 0-2-.9-2-2V3z"/>
-                        </svg>
-                        8
-                    </button>
-
-                    <button>
-                        <svg className="logo" viewBox="0 0 24 24" id="bookmark" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="black">
-                            <path id="primary" d="M12,17,5,21V4A1,1,0,0,1,6,3H18a1,1,0,0,1,1,1V21Z"></path>
-                        </svg>
-                        Save
-                    </button> */}
 
                     {showDeleteButton && <button onClick={(event) => handleDelete(event, entry.id)}>
                         <svg className="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
