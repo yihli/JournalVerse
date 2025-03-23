@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import usersService from '../services/users'
 
-const CreateAccountForm = ({ setLoginState }) => {
+const CreateAccountForm = ({ setToShow }) => {
     const [username, setUsername] = useState('')
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
@@ -62,7 +62,7 @@ const CreateAccountForm = ({ setLoginState }) => {
             // redirect user to login form
             showError('Account created, please log in with your new details. Redirecting...')
             setTimeout(() => {
-                setLoginState(true)
+                setToShow(0)
             }, 3000)
         } catch (error) {
             console.log(error)
@@ -86,4 +86,5 @@ const CreateAccountForm = ({ setLoginState }) => {
         </div>
     )
 }
+
 export default CreateAccountForm

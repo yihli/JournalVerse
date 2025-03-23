@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../reducers/userReducer'
 
-const LoginForm = () => {
+const LoginForm = ({ setToShow }) => {
     const dispatch = useDispatch()
 
     const [username, setUsername] = useState('')
@@ -33,7 +33,7 @@ const LoginForm = () => {
             const fullUser = await usersService.getCurrentUser()
             // setUser(fullUser)
             dispatch(setUser(fullUser))
-
+            setToShow(2)
         } catch (error) {
             console.log('Error occurred while logging in', error)
             showError('Incorrect username or password.')

@@ -8,13 +8,15 @@ const EnterForms = ({ visible }) => {
     const style = { display: visible ? '' : 'none' }
 
     const forms = [
-        <LoginForm />,
-        <CreateAccountForm />
+        <LoginForm setToShow={setToShow}/>,
+        <CreateAccountForm setToShow={setToShow}/>,
+        <></>
     ]
 
     const switchText = [
         'Create account instead.',
-        'Log in instead.'
+        'Log in instead.',
+        ''
     ]
 
     const switchForm = () => {
