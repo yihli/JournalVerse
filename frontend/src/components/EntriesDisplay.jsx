@@ -1,11 +1,14 @@
 import entriesService from '../services/entries'
 import usersService from '../services/users'
-import { deleteEntry } from '../reducers/entryReducer'
-import { useDispatch } from 'react-redux'
 
+import { deleteEntry } from '../reducers/entryReducer'
+import { setUser } from '../reducers/userReducer'
+
+import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 
-const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHeart, showDeleteButton }) => {
+
+const Entry = ({ entry, postedMessage, showPostToolbar, showRedHeart, showDeleteButton }) => {
     const dispatch = useDispatch()
     const [totalLikes, setTotalLikes] = useState(entry.likes)
     const [likeDisabled, setLikeDisabled] = useState(false)
@@ -63,7 +66,7 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
             await usersService.updateOne(updatedUserDetails)
             await entriesService.updateOne(entryId, updatedEntryDetails)
             setTotalLikes(likesIncrement + totalLikes)
-            setUser({ ...user, likes: userLikedArr })
+            dispatch(setUser({ ...user, likes: userLikedArr }))
 
             setTimeout(() => {
                 setLikeDisabled(false)
@@ -96,31 +99,44 @@ const Entry = ({ user, setUser, entry, postedMessage, showPostToolbar, showRedHe
             <p className="text-sm py-[0.25rem]">
                 {entry.content}
             </p>
-
+{/* 
             {
-                showPostToolbar && 
-                <div className="post-toolbar">
-                    <button className="post-toolbar-likes" onClick={likeDisabled ? undefined : () => handleLike(entry.id)}>
+                showPostToolbar &&  */}
+                <div className="
+                    flex flex-row justify-content"
+                >
+                    <button className="
+                        flex flex-row items-center
+                       " onClick={likeDisabled ? undefined : () => handleLike(entry.id)}>
                         {/* heart */}
-                        <svg className="post-toolbar-likes-heart logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={showRedHeart ? "red" : "none"} stroke="black" >
+                        <svg className="
+                            w-auto h-[1rem] 
+                            mr-[0.1rem] mt-[0.1rem]
+                            outline-1 outline-black rounded" 
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={showRedHeart ? "red" : "none"} stroke="black" >
                             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/> 
                         </svg>
-                        {totalLikes}
+                        <p>{totalLikes}</p>
                     </button>
+                    
 
                     {showDeleteButton && <button onClick={(event) => handleDelete(event, entry.id)}>
-                        <svg className="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <svg className="
+                            w-auto h-[1rem] 
+                            ml-[0.75rem] mt-[0.1rem]" 
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M3 6h18M6 6v12a3 3 0 003 3h6a3 3 0 003-3V6M9 6V4a2 2 0 012-2h6a2 2 0 012 2v2M10 11v5M14 11v5" fill="none" stroke="black"/>
                         </svg>
-                        Delete post
                     </button>}   
                 </div>
-            }
+            {/* } */}
         </div>
     )
 }
 
-const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying, entriesToShow }) => {
+const EntriesDisplay = ({ nowDisplaying }) => {
+    const user = useSelector(state => state.user)
+    const entries = useSelector(state => state.entries)
 
     const timeSincePost = (timePosted) => {
         const timeCurrent = new Date().getTime()
@@ -164,7 +180,7 @@ const EntriesDisplay = ({ user, setUser, entries, setEntries, nowDisplaying, ent
                 {
                 [...displayedEntries].reverse().map(entry => (
                     <Entry 
-                        key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={user !== null} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} user={user} setUser={setUser} entries={entries} setEntries={setEntries}/>
+                        key={entry.id} entry={entry} postedMessage={timeSincePost(entry.date)} showPostToolbar={Object.keys(user).length !== 0} showRedHeart={user?.likes?.includes(entry.id)} showDeleteButton={user?.entries?.some(e => e.id === entry.id)} />
                 ))    
                 }       
                 </div>

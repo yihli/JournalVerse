@@ -7,6 +7,7 @@ import EntryForm from './components/EntryForm'
 import LoginForm from './components/LoginForm'
 import CreateAccountForm from './components/CreateAccountForm'
 import Sidebar from './components/Sidebar'
+import NavBar from './components/NavBar'
 
 import './styles.css'
 
@@ -48,12 +49,10 @@ const App = () => {
       w-screen
       h-screen
       overflow-y-auto'>
-        <Sidebar 
-
-          user={user} setNowDisplaying={setNowDisplaying}/>
-        <EntriesDisplay 
-
-          entries={entries_test} setEntries={handleSetEntries} nowDisplaying={nowDisplaying} user={user} />
+        <NavBar />
+        <div className='mt-[4.5rem]'></div>
+        <Sidebar user={user} setNowDisplaying={setNowDisplaying}/>
+        <EntriesDisplay entries={entries_test} setEntries={handleSetEntries} nowDisplaying={nowDisplaying} user={user} />
         {
           Object.keys(user).length !== 0
           ? <div className="third-column" >

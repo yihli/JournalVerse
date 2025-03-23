@@ -3,6 +3,7 @@ import entriesService from '../services/entries'
 import usersService from '../services/users'
 import { useDispatch } from 'react-redux'
 import { createEntry } from '../reducers/entryReducer'
+import { setUser } from '../reducers/userReducer'
 
 const EntryForm = ({ handleShowEntryForm, user, setUser }) => {
     const dispatch = useDispatch()
@@ -66,7 +67,7 @@ const EntryForm = ({ handleShowEntryForm, user, setUser }) => {
 
             handleShowEntryForm()
             dispatch(createEntry({ ...returnedEntry, user: { username: postedUser.username, id: postedUser.id }}))
-            setUser({ ...user, entries: user.entries.concat(returnedEntry)})
+            dispatch(setUser({ ...user, entries: user.entries.concat(returnedEntry)}))
         } catch (error) {
             setError(error.response)
             setTimeout(() => {
