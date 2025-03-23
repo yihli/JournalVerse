@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
 import entriesService from '../services/entries'
 import usersService from '../services/users'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createEntry } from '../reducers/entryReducer'
 import { setUser } from '../reducers/userReducer'
 
-const EntryForm = ({ handleShowEntryForm, user, setUser }) => {
+const EntryForm = ({ handleShowEntryForm }) => {
     const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
+    
     const [content, setContent] = useState('')
     const [title, setTitle] = useState('')
     const [error, setError] = useState(null)

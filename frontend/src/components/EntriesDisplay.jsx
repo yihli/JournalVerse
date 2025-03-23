@@ -99,9 +99,9 @@ const Entry = ({ entry, postedMessage, showPostToolbar, showRedHeart, showDelete
             <p className="text-sm py-[0.25rem]">
                 {entry.content}
             </p>
-{/* 
+
             {
-                showPostToolbar &&  */}
+                showPostToolbar && 
                 <div className="
                     flex flex-row justify-content"
                 >
@@ -123,13 +123,14 @@ const Entry = ({ entry, postedMessage, showPostToolbar, showRedHeart, showDelete
                     {showDeleteButton && <button onClick={(event) => handleDelete(event, entry.id)}>
                         <svg className="
                             w-auto h-[1rem] 
-                            ml-[0.75rem] mt-[0.1rem]" 
+                            ml-[0.75rem] mt-[0.1rem]
+                            outline-1 outline-black rounded" 
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M3 6h18M6 6v12a3 3 0 003 3h6a3 3 0 003-3V6M9 6V4a2 2 0 012-2h6a2 2 0 012 2v2M10 11v5M14 11v5" fill="none" stroke="black"/>
                         </svg>
                     </button>}   
                 </div>
-            {/* } */}
+            }
         </div>
     )
 }

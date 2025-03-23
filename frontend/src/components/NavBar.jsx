@@ -1,7 +1,4 @@
-const NavBar = () => {
-    const handleEnter = () => {
-        
-    }
+const NavBar = ({ setShowForms }) => {
     return (
         <div className="
            fixed w-screen h-[4rem] bg-gray-400
@@ -11,10 +8,10 @@ const NavBar = () => {
                 <p>Logo</p>
             </div>
             <div className="
-                flex flex-row items-center gap-2
-                w-[5rem]"
+                flex flex-row items-center justify-between gap-3
+                w-[6rem]"
             >
-                <button>Enter!</button>
+                <button onClick={setShowForms}>Enter!</button>
                 <p>Acc Img</p>
             </div>
         </div>
